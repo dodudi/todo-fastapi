@@ -1,0 +1,11 @@
+[project]
+name = "todo-fastapi"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi[standard]>=0.135.1",
+    "psycopg2-binary>=2.9.11",
+    "pydantic-settings>=2.13.1",
+    "sqlmodel>=0.0.37",
+]

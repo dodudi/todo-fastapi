@@ -1,0 +1,36 @@
+from datetime import datetime, timezone
+
+from pydantic import BaseModel, Field
+
+
+class TodoCreate(BaseModel):
+    title: str
+    description: str
+    status: str
+    priority: str
+
+class TodoResponse(BaseModel):
+    id: int
+    title: str
+    description: str
+    status: str
+    priority: str
+    created_dt: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_dt: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+# 각 나라 LocalDate + Timezone -> ISO 8601 표준
+# 2026-03-10T14:00:00+09:00
+# class Todo(BaseModel):
+#     title: str
+#     description: str
+#     status: str
+#     priority: str
+#     created_dt: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+#     updated_dt: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+    # @field_validator("create_dt", "update_dt")
+    # def convert_to_utc(cls, v):
+    #     if v.tzinfo is None:
+    #         raise ValueError("timezone 정보가 필요합니다")
+    #
+    #     return v.astimezone(timezone.utc)
