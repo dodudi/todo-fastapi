@@ -2,7 +2,7 @@ from fastapi import HTTPException
 from sqlmodel import Session
 
 from app.models.todo import Todo
-from app.schemas.todo import TodoCreate
+from app.schemas.todo import TodoCreate, TodoUpdate
 
 
 def get_todo(todo_id: int, session: Session) -> Todo:
@@ -15,6 +15,20 @@ def get_todo(todo_id: int, session: Session) -> Todo:
 def create_todo(data: TodoCreate, session: Session) -> Todo:
     todo = Todo(**data.model_dump())
     session.add(todo)
+    session.commit()
+    session.refresh(todo)
+    return todo
+
+
+def update_todo(todo_id: int, data: TodoUpdate, session: Session) -> Todo:
+    todo: Todo | None = session.get(Todo, todo_id)
+    if todo is None:
+        raise HTTPException(status_code=404, detail="Todo not found")
+
+    update_data = data.model_dump(exclude_unset=True)
+    for key, value in update_data.items():
+        setattr(todo, key, value)
+
     session.commit()
     session.refresh(todo)
     return todo
