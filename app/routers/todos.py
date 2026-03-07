@@ -6,7 +6,6 @@ from app.db.session import get_session
 from app.schemas.todo import TodoCreate, TodoResponse
 from app.services import todo as todo_service
 
-
 router = APIRouter(
     prefix="/todos",
     tags=["todos"],
@@ -14,8 +13,8 @@ router = APIRouter(
 
 
 @router.get("/{todo_id}", response_model=TodoResponse)
-def read_item(todo_id: int):
-    return {"item_id": todo_id}
+def read_item(todo_id: int, session: Session = Depends(get_session)):
+    return todo_service.get_todo(todo_id, session)
 
 
 @router.post("", response_model=TodoResponse)

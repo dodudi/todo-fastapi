@@ -2,19 +2,21 @@ from datetime import datetime, timezone
 
 from pydantic import BaseModel, Field
 
+from app.models.enums import TodoPriority, TodoStatus
+
 
 class TodoCreate(BaseModel):
     title: str
     description: str
-    status: str
-    priority: str
+    status: TodoStatus
+    priority: TodoPriority
 
 class TodoResponse(BaseModel):
     id: int
     title: str
     description: str
-    status: str
-    priority: str
+    status: TodoStatus
+    priority: TodoPriority
     created_dt: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_dt: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
