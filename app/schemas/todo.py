@@ -28,6 +28,14 @@ class TodoUpdate(BaseModel):
     status: TodoStatus | None = None
     priority: TodoPriority | None = None
 
+
+class TodoListResponse(BaseModel):
+    data: list[TodoResponse]
+    page: int
+    size: int
+    totalCount: int
+    has_next: bool
+
 # 각 나라 LocalDate + Timezone -> ISO 8601 표준
 # 2026-03-10T14:00:00+09:00
 # class Todo(BaseModel):

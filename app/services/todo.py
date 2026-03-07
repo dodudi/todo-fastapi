@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from sqlmodel import Session
+from sqlmodel import Session, select, func
 
 from app.models.todo import Todo
 from app.schemas.todo import TodoCreate, TodoUpdate
@@ -10,6 +10,12 @@ def get_todo(todo_id: int, session: Session) -> Todo:
     if todo is None:
         raise HTTPException(status_code=404, detail="Todo not found")
     return todo
+
+
+def get_todos(page: int, size: int, session: Session) -> tuple[list[Todo], int]:
+    total = session.exec(select(func.count()).select_from(Todo)).one()
+    items = list(session.exec(select(Todo).offset(page * size).limit(size)).all())
+    return items, total
 
 
 def create_todo(data: TodoCreate, session: Session) -> Todo:
