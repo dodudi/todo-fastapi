@@ -20,13 +20,10 @@ def read_item(todo_id: int, session: Session = Depends(get_session)):
 
 @router.get("", response_model=TodoListResponse)
 def read_items(page: int = 0, size: int = 100, session: Session = Depends(get_session)):
-    items, total = todo_service.get_todos(page, size, session)
+    items, metadata = todo_service.get_todos(page, size, session)
     return TodoListResponse(
         data=[TodoResponse.model_validate(item, from_attributes=True) for item in items],
-        page=page,
-        size=size,
-        totalCount=total,
-        has_next=(page + 1) * size < total,
+        metadata=metadata
     )
 
 

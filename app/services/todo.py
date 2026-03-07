@@ -2,6 +2,7 @@ from fastapi import HTTPException
 from sqlmodel import Session, select, func
 
 from app.models.todo import Todo
+from app.schemas.page import Page
 from app.schemas.todo import TodoCreate, TodoUpdate
 
 
@@ -12,10 +13,11 @@ def get_todo(todo_id: int, session: Session) -> Todo:
     return todo
 
 
-def get_todos(page: int, size: int, session: Session) -> tuple[list[Todo], int]:
+def get_todos(page: int, size: int, session: Session) -> tuple[list[Todo], Page]:
     total = session.exec(select(func.count()).select_from(Todo)).one()
     items = list(session.exec(select(Todo).offset(page * size).limit(size)).all())
-    return items, total
+    metadata = Page(page=page, size=size, total_count=total, has_next=(page + 1) * size < total)
+    return items, metadata
 
 
 def create_todo(data: TodoCreate, session: Session) -> Todo:

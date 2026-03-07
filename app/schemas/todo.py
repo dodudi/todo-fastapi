@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 from pydantic import BaseModel, Field
 
 from app.models.enums import TodoPriority, TodoStatus
+from app.schemas.page import Page
 
 
 class TodoCreate(BaseModel):
@@ -31,10 +32,7 @@ class TodoUpdate(BaseModel):
 
 class TodoListResponse(BaseModel):
     data: list[TodoResponse]
-    page: int
-    size: int
-    totalCount: int
-    has_next: bool
+    metadata: Page
 
 # 각 나라 LocalDate + Timezone -> ISO 8601 표준
 # 2026-03-10T14:00:00+09:00
