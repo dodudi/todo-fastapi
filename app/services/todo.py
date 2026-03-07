@@ -18,3 +18,8 @@ def create_todo(data: TodoCreate, session: Session) -> Todo:
     session.commit()
     session.refresh(todo)
     return todo
+
+
+def delete_todo(todo_id: int, session: Session) -> None:
+    session.delete(get_todo(todo_id, session))
+    session.commit()
