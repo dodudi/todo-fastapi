@@ -8,18 +8,9 @@ assignees: ""
 
 ## Description
 
-기능 설명
+<!-- 구현할 API 간단 설명 -->
 
-예:
-게시글 목록 조회 API 구현
-
----
-
-## Requirements
-
-- 기능1
-- 기능2
-- 기능3
+관련 요구사항: #
 
 ---
 
@@ -28,49 +19,56 @@ assignees: ""
 ### Endpoint
 
 ```
-GET /api/...
+GET /
 ```
+
+### Path Params
+
+| 이름 | 타입 | 설명 |
+|------|------|------|
+|      |      |      |
 
 ### Query Params
 
-| name | type | required | description |
-|------|------|----------|-------------|
-| page | int  | N        | 페이지 번호      |
-| size | int  | N        | 페이지 사이즈     |
+| 이름 | 타입 | 필수 | 설명 |
+|------|------|------|------|
+|      |      |      |      |
 
-### Request
+### Request Body
 
-```json
-{}
-```
+| 필드 | 타입 | 필수 | 설명 |
+|------|------|------|------|
+|      |      |      |      |
 
-### Response
+### Response Body
 
-```json
-{}
-```
+| 필드 | 타입 | 설명 |
+|------|------|------|
+|      |      |      |
 
 ### Error
 
-| code | description           |
-|------|-----------------------|
-| 400  | Bad Request           |
-| 401  | Unauthorized          |
+| 코드 | 설명 |
+|------|------|
+| 400  | Bad Request |
+| 404  | Not Found |
+| 422  | Validation Error |
 | 500  | Internal Server Error |
 
 ---
 
 ## Acceptance Criteria
 
-- 기능 정상 동작
-- 예외 처리 구현
-- 테스트 통과
+<!-- 완료 조건 -->
+- [ ] 정상 응답 확인
+- [ ] 예외 처리 확인
+- [ ] 테스트 통과
 
 ---
 
 ## Tasks
 
-- [ ] Repository 구현
+- [ ] Schema 작성
 - [ ] Service 구현
-- [ ] Controller 구현
-- [ ] Test 작성
+- [ ] Router 구현
+- [ ] 테스트 작성
