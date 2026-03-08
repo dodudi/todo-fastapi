@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, ConfigDict
+from pydantic.alias_generators import to_camel
 
 from app.models.enums import TodoPriority
 from app.schemas.page import Page
@@ -21,6 +22,7 @@ class TodoResponse(BaseModel):
     created_dt: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_dt: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
 
 class TodoUpdate(BaseModel):
     title: str | None = None
