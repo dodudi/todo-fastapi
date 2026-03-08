@@ -1,21 +1,23 @@
-## Title
-[API] {기능명}
-
+---
+name: API Feature
+about: API 기능 개발
+title: "[API] "
+labels: feature
+assignees: ""
 ---
 
 ## Description
 기능 설명
 
 예:
-게시글 목록을 조회하는 API 구현
+게시글 목록 조회 API 구현
 
 ---
 
 ## Requirements
-- 게시글 목록 조회
-- 최신순 정렬
-- 페이지네이션 지원
-- 삭제된 게시글 제외
+- 기능1
+- 기능2
+- 기능3
 
 ---
 
@@ -23,7 +25,7 @@
 
 ### Endpoint
 ```
-GET /api/posts
+GET /api/...
 ```
 
 ### Query Params
@@ -40,22 +42,11 @@ GET /api/posts
 
 ### Response
 ```json
-{
-  "content": [
-    {
-      "id": 1,
-      "title": "게시글 제목",
-      "author": "user1",
-      "createdAt": "2026-03-08T10:00:00"
-    }
-  ],
-  "page": 0,
-  "size": 10,
-  "totalElements": 120
-}
+{}
 ```
 
 ### Error
+
 | code | description |
 |-----|-------------|
 | 400 | Bad Request |
@@ -65,9 +56,9 @@ GET /api/posts
 ---
 
 ## Acceptance Criteria
-- pagination 정상 동작
-- 삭제된 게시글 조회되지 않음
-- 응답 정상 반환
+- 기능 정상 동작
+- 예외 처리 구현
+- 테스트 통과
 
 ---
 
@@ -75,4 +66,4 @@ GET /api/posts
 - [ ] Repository 구현
 - [ ] Service 구현
 - [ ] Controller 구현
-- [ ] API 테스트 작성
+- [ ] Test 작성
