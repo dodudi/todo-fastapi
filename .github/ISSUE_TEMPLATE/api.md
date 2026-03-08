@@ -2,7 +2,7 @@
 name: API Feature
 about: API 기능 개발
 title: "[API] "
-labels: feature
+labels: api
 assignees: ""
 ---
 
