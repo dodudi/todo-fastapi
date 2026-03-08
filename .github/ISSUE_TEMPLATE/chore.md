@@ -7,11 +7,13 @@ assignees: ""
 ---
 
 ## Description
+
 작업 설명
 
 ---
 
 ## Tasks
+
 - [ ] 설정 변경
 - [ ] 코드 수정
 - [ ] 테스트
@@ -19,4 +21,5 @@ assignees: ""
 ---
 
 ## Acceptance Criteria
+
 - 정상 동작 확인
