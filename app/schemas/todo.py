@@ -1,23 +1,22 @@
 from datetime import datetime, timezone
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
-from app.models.enums import TodoPriority, TodoStatus
+from app.models.enums import TodoPriority
 from app.schemas.page import Page
 
 
 class TodoCreate(BaseModel):
     title: str
-    description: str
-    status: TodoStatus
-    priority: TodoPriority
+    description: str | None = None
+    priority: TodoPriority = TodoPriority.low
 
 
 class TodoResponse(BaseModel):
     id: int
     title: str
-    description: str
-    status: TodoStatus
+    description: str | None
+    status: bool
     priority: TodoPriority
     created_dt: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_dt: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
@@ -26,8 +25,15 @@ class TodoResponse(BaseModel):
 class TodoUpdate(BaseModel):
     title: str | None = None
     description: str | None = None
-    status: TodoStatus | None = None
+    status: bool | None = None
     priority: TodoPriority | None = None
+
+    @field_validator("status")
+    @classmethod
+    def status_must_not_be_none(cls, v: bool | None) -> bool:
+        if v is None:
+            raise ValueError("status는 null이 될 수 없습니다")
+        return v
 
 
 class TodoListResponse(BaseModel):
