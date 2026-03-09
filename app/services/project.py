@@ -10,3 +10,8 @@ def create_project(data: ProjectCreate, session: Session) -> Project:
     session.commit()
     session.refresh(project)
     return project
+
+
+def get_projects(session) -> list[Project]:
+    projects = session.query(Project).all()
+    return projects

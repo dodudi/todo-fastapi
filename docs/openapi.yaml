@@ -480,7 +480,9 @@ paths:
                   title:
                     type: string
                   description:
-                    type: string
+                    type:
+                      - string
+                      - 'null'
                   createdDt:
                     type: string
                     description: UTC TIME
@@ -492,7 +494,6 @@ paths:
                 required:
                   - id
                   - title
-                  - description
                   - createdDt
                   - updatedDt
               example:
@@ -505,6 +506,58 @@ paths:
         '422':
           $ref: '#/components/responses/422'
           description: ''
+      security: []
+    get:
+      summary: gets
+      deprecated: false
+      description: ''
+      tags: []
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: ID
+                        title:
+                          type: string
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        createdDt:
+                          type: string
+                          description: UTC TIME
+                          format: date-time
+                        updatedDt:
+                          type: string
+                          description: UTC TIME
+                          format: date-time
+                      required:
+                        - id
+                        - title
+                        - createdDt
+                        - updatedDt
+                required:
+                  - data
+              example:
+                data:
+                  - id: 1
+                    title: test todo
+                    description: test description
+                    createdDt: '2026-03-09T07:40:41.580378'
+                    updatedDt: '2026-03-09T07:40:41.580389'
+          headers: {}
       security: []
   /projects/{project_id}/todos:
     post:
@@ -617,6 +670,72 @@ paths:
 webhooks: {}
 components:
   schemas:
+    TodoUpdate:
+      type: object
+      properties:
+        title:
+          type:
+            - string
+            - 'null'
+        description:
+          type:
+            - string
+            - 'null'
+        status:
+          type:
+            - boolean
+            - 'null'
+        priority:
+          type:
+            - string
+            - 'null'
+    TodoResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        project_id:
+          type:
+            - integer
+            - 'null'
+          description: 속한 프로젝트 아이디
+        title:
+          type: string
+        description:
+          type:
+            - string
+            - 'null'
+        status:
+          type: boolean
+          description: 상태
+        priority:
+          type: string
+          default: low
+          enum:
+            - low
+            - medium
+            - high
+        deletedDt:
+          type:
+            - string
+            - 'null'
+          description: UTC TIME
+          format: date-time
+        createdDt:
+          type: string
+          description: UTC TIME
+          format: date-time
+        updatedDt:
+          type: string
+          description: UTC TIME
+          format: date-time
+      required:
+        - title
+        - priority
+        - id
+        - createdDt
+        - updatedDt
+        - status
     TodoResponses:
       type: object
       properties:
@@ -688,96 +807,6 @@ components:
       required:
         - data
         - metadata
-    TodoUpdate:
-      type: object
-      properties:
-        title:
-          type:
-            - string
-            - 'null'
-        description:
-          type:
-            - string
-            - 'null'
-        status:
-          type:
-            - boolean
-            - 'null'
-        priority:
-          type:
-            - string
-            - 'null'
-    TodoResponse:
-      type: object
-      properties:
-        id:
-          type: integer
-        project_id:
-          type:
-            - integer
-            - 'null'
-          description: 속한 프로젝트 아이디
-        title:
-          type: string
-        description:
-          type:
-            - string
-            - 'null'
-        status:
-          type: boolean
-          description: 상태
-        priority:
-          type: string
-          default: low
-          enum:
-            - low
-            - medium
-            - high
-        deletedDt:
-          type:
-            - string
-            - 'null'
-          description: UTC TIME
-          format: date-time
-        createdDt:
-          type: string
-          description: UTC TIME
-          format: date-time
-        updatedDt:
-          type: string
-          description: UTC TIME
-          format: date-time
-      required:
-        - title
-        - priority
-        - id
-        - createdDt
-        - updatedDt
-        - status
-    TodoFilter:
-      type: object
-      properties:
-        status:
-          type:
-            - string
-            - 'null'
-          description: 상태
-        priority:
-          type:
-            - string
-            - 'null'
-          description: |
-            우선순위
-        title:
-          type:
-            - string
-            - 'null'
-          description: 제목
-        isDeleted:
-          type:
-            - boolean
-            - 'null'
-          description: 삭제여부
     TodoCreate:
       type: object
       properties:
@@ -817,7 +846,9 @@ components:
         title:
           type: string
         description:
-          type: string
+          type:
+            - string
+            - 'null'
         createdDt:
           type: string
           description: UTC TIME
@@ -829,9 +860,40 @@ components:
       required:
         - id
         - title
-        - description
         - createdDt
         - updatedDt
+    ProjectResponses:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: ID
+              title:
+                type: string
+              description:
+                type:
+                  - string
+                  - 'null'
+              createdDt:
+                type: string
+                description: UTC TIME
+                format: date-time
+              updatedDt:
+                type: string
+                description: UTC TIME
+                format: date-time
+            required:
+              - id
+              - title
+              - createdDt
+              - updatedDt
+      required:
+        - data
     PageMetadata:
       type: object
       properties:

@@ -17,3 +17,7 @@ class ProjectResponse(BaseModel):
     updated_dt: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+
+
+class ProjectListResponse(BaseModel):
+    data: list[ProjectResponse]

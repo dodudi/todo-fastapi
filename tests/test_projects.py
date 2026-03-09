@@ -67,3 +67,20 @@ def test_create_todo_with_project_404(client):
 
     todo_response = client.post(f"/projects/{project_id_add_one}/todos", json=todo)
     assert todo_response.status_code == 404
+
+
+def test_get_projects(client):
+    client.post("/projects", json=project)
+    client.post("/projects", json=project)
+    client.post("/projects", json=project)
+    client.post("/projects", json=project)
+    client.post("/projects", json=project)
+
+    projects = client.get("/projects")
+    assert projects.status_code == 200
+
+    projects_json = projects.json()
+    assert len(projects_json["data"]) == 5
+
+    for i, p in enumerate(projects_json["data"], start=1):
+        assert p["id"] == i
