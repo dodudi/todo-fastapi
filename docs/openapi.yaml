@@ -104,7 +104,9 @@ paths:
           required: false
           example: 0
           schema:
-            type: integer
+            type:
+              - integer
+              - 'null'
             default: 0
         - name: size
           in: query
@@ -112,8 +114,40 @@ paths:
           required: false
           example: 100
           schema:
-            type: integer
+            type:
+              - integer
+              - 'null'
             default: 100
+        - name: title
+          in: query
+          description: ''
+          required: false
+          schema:
+            type:
+              - string
+              - 'null'
+        - name: status
+          in: query
+          description: ''
+          required: false
+          schema:
+            type: string
+        - name: priority
+          in: query
+          description: ''
+          required: false
+          schema:
+            type:
+              - string
+              - 'null'
+        - name: isDeleted
+          in: query
+          description: ''
+          required: false
+          schema:
+            type:
+              - boolean
+              - 'null'
       responses:
         '200':
           description: ''
@@ -451,6 +485,34 @@ components:
           type:
             - string
             - 'null'
+    Todo422Response:
+      type: object
+      properties:
+        detail:
+          type:
+            - array
+            - 'null'
+          items:
+            type: object
+            properties:
+              type:
+                type:
+                  - string
+                  - 'null'
+              loc:
+                type:
+                  - array
+                  - 'null'
+                items:
+                  type: string
+              msg:
+                type:
+                  - string
+                  - 'null'
+              input:
+                type:
+                  - string
+                  - 'null'
     PageMetadata:
       type: object
       properties:
@@ -467,6 +529,30 @@ components:
         - size
         - totalCount
         - hasNext
+    TodoFilter:
+      type: object
+      properties:
+        status:
+          type:
+            - string
+            - 'null'
+          description: 상태
+        priority:
+          type:
+            - string
+            - 'null'
+          description: |
+            우선순위
+        title:
+          type:
+            - string
+            - 'null'
+          description: 제목
+        isDeleted:
+          type:
+            - boolean
+            - 'null'
+          description: 삭제여부
   responses:
     422Response:
       description: ''
