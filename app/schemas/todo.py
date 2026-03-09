@@ -19,6 +19,7 @@ class TodoResponse(BaseModel):
     description: str | None
     status: bool
     priority: TodoPriority
+    deleted_dt: datetime | None = None
     created_dt: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_dt: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 

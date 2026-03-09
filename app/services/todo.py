@@ -1,3 +1,5 @@
+import datetime
+
 from fastapi import HTTPException
 from sqlmodel import Session, select, func
 
@@ -43,5 +45,6 @@ def update_todo(todo_id: int, data: TodoUpdate, session: Session) -> Todo:
 
 
 def delete_todo(todo_id: int, session: Session) -> None:
-    session.delete(get_todo(todo_id, session))
+    todo = session.get(Todo, todo_id)
+    todo.deleted_dt = datetime.datetime.now(datetime.UTC)
     session.commit()

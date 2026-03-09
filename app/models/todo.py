@@ -13,5 +13,7 @@ class Todo(SQLModel, table=True):
     description: str | None = Field(default=None)
     status: bool = Field(default=False, index=True)
     priority: TodoPriority
+
+    deleted_dt: datetime | None = Field(default=None, index=True)
     created_dt: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_dt: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))

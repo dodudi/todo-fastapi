@@ -70,3 +70,15 @@ def test_update_todo(client):
     assert response.status_code == 200
     assert data["title"] == "updated title"
     assert data["status"] is True
+
+
+def test_delete_todo(client):
+    create = client.post("/todos", json=todo)
+    todo_id = create.json()["id"]
+
+    response = client.delete(f"/todos/{todo_id}")
+    assert response.status_code == 204
+
+    get = client.get(f"/todos/{todo_id}")
+    get_todo = get.json()
+    assert get_todo["deletedDt"] is not None
