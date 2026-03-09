@@ -5,6 +5,8 @@ from starlette.testclient import TestClient
 
 from app.db.session import get_session
 from app.main import app
+from app.models.enums import TodoStatus, TodoPriority
+from app.schemas.todo import TodoFilter
 
 
 @pytest.fixture
@@ -59,6 +61,20 @@ def test_read_todo(client):
     assert data["title"] == "test todo"
     assert data["description"] == "test description"
     assert data["priority"] == "low"
+
+
+def test_read_todos(client):
+    client.post("/todos", json=todo)
+    client.post("/todos", json=todo)
+    client.post("/todos", json=todo)
+    client.post("/todos", json=todo)
+    client.post("/todos", json=todo)
+
+    todo_filter = TodoFilter(title="test", status=False, priority=TodoPriority.low)
+    response = client.get("/todos", params=todo_filter.model_dump())
+    print(response.json())
+    assert response.status_code == 200
+    assert response.json()["metadata"]["totalCount"] == 5
 
 
 def test_update_todo(client):

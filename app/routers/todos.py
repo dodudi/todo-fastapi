@@ -4,7 +4,7 @@ from sqlmodel import Session
 from starlette import status
 
 from app.db.session import get_session
-from app.schemas.todo import TodoCreate, TodoListResponse, TodoResponse, TodoUpdate
+from app.schemas.todo import TodoCreate, TodoListResponse, TodoResponse, TodoUpdate, TodoFilter
 from app.services import todo as todo_service
 
 router = APIRouter(
@@ -19,8 +19,8 @@ def read_item(todo_id: int, session: Session = Depends(get_session)):
 
 
 @router.get("", response_model=TodoListResponse)
-def read_items(page: int = 0, size: int = 100, session: Session = Depends(get_session)):
-    items, metadata = todo_service.get_todos(page, size, session)
+def read_items(page: int = 0, size: int = 100, todo_filter: TodoFilter = Depends(), session: Session = Depends(get_session)):
+    items, metadata = todo_service.get_todos(page, size, todo_filter, session)
     return TodoListResponse(
         data=[TodoResponse.model_validate(item, from_attributes=True) for item in items],
         metadata=metadata

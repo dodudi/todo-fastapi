@@ -451,34 +451,6 @@ components:
           type:
             - string
             - 'null'
-    Todo422Response:
-      type: object
-      properties:
-        detail:
-          type:
-            - array
-            - 'null'
-          items:
-            type: object
-            properties:
-              type:
-                type:
-                  - string
-                  - 'null'
-              loc:
-                type:
-                  - array
-                  - 'null'
-                items:
-                  type: string
-              msg:
-                type:
-                  - string
-                  - 'null'
-              input:
-                type:
-                  - string
-                  - 'null'
     PageMetadata:
       type: object
       properties:

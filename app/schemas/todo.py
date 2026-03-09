@@ -7,6 +7,14 @@ from app.models.enums import TodoPriority
 from app.schemas.page import Page
 
 
+class TodoFilter(BaseModel):
+    title: str | None = None
+    status: bool | None = None
+    priority: TodoPriority | None = None
+    is_deleted: bool | None = None
+
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True, use_enum_values=True)
+
 class TodoCreate(BaseModel):
     title: str
     description: str | None = None
@@ -25,6 +33,7 @@ class TodoResponse(BaseModel):
 
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
 
+
 class TodoUpdate(BaseModel):
     title: str | None = None
     description: str | None = None
@@ -42,6 +51,8 @@ class TodoUpdate(BaseModel):
 class TodoListResponse(BaseModel):
     data: list[TodoResponse]
     metadata: Page
+
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
 
 # 각 나라 LocalDate + Timezone -> ISO 8601 표준
 # 2026-03-10T14:00:00+09:00
