@@ -4,6 +4,7 @@ from fastapi import FastAPI
 
 from app.db.session import create_db_and_tables
 from app.routers import todos
+from app.routers import projects
 
 
 @asynccontextmanager
@@ -15,3 +16,4 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 app.include_router(todos.router)
+app.include_router(projects.router)

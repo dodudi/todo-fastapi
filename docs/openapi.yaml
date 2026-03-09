@@ -64,6 +64,10 @@ paths:
                       - low
                       - medium
                       - high
+                  deletedDt:
+                    type: string
+                    description: UTC TIME
+                    format: date-time
                   createdDt:
                     type: string
                     description: UTC TIME
@@ -77,6 +81,7 @@ paths:
                   - title
                   - status
                   - priority
+                  - deletedDt
                   - createdDt
                   - updatedDt
               example:
@@ -89,7 +94,7 @@ paths:
                 updatedDt: '2026-03-08T12:33:09.061379'
           headers: {}
         '422':
-          $ref: '#/components/responses/422Response'
+          $ref: '#/components/responses/422'
           description: ''
       security: []
     get:
@@ -179,6 +184,10 @@ paths:
                             - low
                             - medium
                             - high
+                        deletedDt:
+                          type: string
+                          description: UTC TIME
+                          format: date-time
                         createdDt:
                           type: string
                           description: UTC TIME
@@ -192,6 +201,7 @@ paths:
                         - title
                         - status
                         - priority
+                        - deletedDt
                         - createdDt
                         - updatedDt
                   metadata:
@@ -215,7 +225,7 @@ paths:
                   - metadata
           headers: {}
         '422':
-          $ref: '#/components/responses/422Response'
+          $ref: '#/components/responses/422'
           description: ''
       security: []
   /todos/{todo_id}:
@@ -258,6 +268,10 @@ paths:
                       - low
                       - medium
                       - high
+                  deletedDt:
+                    type: string
+                    description: UTC TIME
+                    format: date-time
                   createdDt:
                     type: string
                     description: UTC TIME
@@ -271,11 +285,12 @@ paths:
                   - title
                   - status
                   - priority
+                  - deletedDt
                   - createdDt
                   - updatedDt
           headers: {}
         '422':
-          $ref: '#/components/responses/422Response'
+          $ref: '#/components/responses/422'
           description: ''
       security: []
     patch:
@@ -324,7 +339,7 @@ paths:
                 properties: {}
           headers: {}
         '422':
-          $ref: '#/components/responses/422Response'
+          $ref: '#/components/responses/422'
           description: ''
       security: []
     delete:
@@ -345,67 +360,75 @@ paths:
           description: '204'
           headers: {}
         '422':
-          $ref: '#/components/responses/422Response'
+          $ref: '#/components/responses/422'
+          description: ''
+      security: []
+  /projects:
+    post:
+      summary: create
+      deprecated: false
+      description: ''
+      tags: []
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type:
+                    - string
+                    - 'null'
+              required:
+                - title
+            example: "{\r\n    \"title\": \"test todo\",\r\n    \"description\": \"test description\",\r\n}"
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: ID
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  createdDt:
+                    type: string
+                    description: UTC TIME
+                    format: date-time
+                  updatedDt:
+                    type: string
+                    description: UTC TIME
+                    format: date-time
+                required:
+                  - id
+                  - title
+                  - description
+                  - createdDt
+                  - updatedDt
+              example:
+                id: 1
+                title: test todo
+                description: test description
+                createdDt: '2026-03-09T04:45:40.379504'
+                updatedDt: '2026-03-09T04:45:40.379514'
+          headers: {}
+        '422':
+          $ref: '#/components/responses/422'
           description: ''
       security: []
 webhooks: {}
 components:
   schemas:
-    TodoCreate:
-      type: object
-      properties:
-        title:
-          type: string
-        description:
-          type:
-            - string
-            - 'null'
-        priority:
-          type: string
-          default: low
-          enum:
-            - low
-            - medium
-            - high
-      required:
-        - title
-        - priority
-    TodoResponse:
-      type: object
-      properties:
-        id:
-          type: integer
-        title:
-          type: string
-        description:
-          type:
-            - string
-            - 'null'
-        status:
-          type: boolean
-          description: 상태
-        priority:
-          type: string
-          default: low
-          enum:
-            - low
-            - medium
-            - high
-        createdDt:
-          type: string
-          description: UTC TIME
-          format: date-time
-        updatedDt:
-          type: string
-          description: UTC TIME
-          format: date-time
-      required:
-        - title
-        - priority
-        - id
-        - createdDt
-        - updatedDt
-        - status
     TodoResponses:
       type: object
       properties:
@@ -432,6 +455,10 @@ components:
                   - low
                   - medium
                   - high
+              deletedDt:
+                type: string
+                description: UTC TIME
+                format: date-time
               createdDt:
                 type: string
                 description: UTC TIME
@@ -445,6 +472,7 @@ components:
               - title
               - status
               - priority
+              - deletedDt
               - createdDt
               - updatedDt
         metadata:
@@ -485,50 +513,47 @@ components:
           type:
             - string
             - 'null'
-    Todo422Response:
+    TodoResponse:
       type: object
       properties:
-        detail:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
           type:
-            - array
+            - string
             - 'null'
-          items:
-            type: object
-            properties:
-              type:
-                type:
-                  - string
-                  - 'null'
-              loc:
-                type:
-                  - array
-                  - 'null'
-                items:
-                  type: string
-              msg:
-                type:
-                  - string
-                  - 'null'
-              input:
-                type:
-                  - string
-                  - 'null'
-    PageMetadata:
-      type: object
-      properties:
-        page:
-          type: integer
-        size:
-          type: integer
-        totalCount:
-          type: integer
-        hasNext:
+        status:
           type: boolean
+          description: 상태
+        priority:
+          type: string
+          default: low
+          enum:
+            - low
+            - medium
+            - high
+        deletedDt:
+          type: string
+          description: UTC TIME
+          format: date-time
+        createdDt:
+          type: string
+          description: UTC TIME
+          format: date-time
+        updatedDt:
+          type: string
+          description: UTC TIME
+          format: date-time
       required:
-        - page
-        - size
-        - totalCount
-        - hasNext
+        - title
+        - priority
+        - id
+        - createdDt
+        - updatedDt
+        - status
+        - deletedDt
     TodoFilter:
       type: object
       properties:
@@ -553,8 +578,78 @@ components:
             - boolean
             - 'null'
           description: 삭제여부
+    TodoCreate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type:
+            - string
+            - 'null'
+        priority:
+          type: string
+          default: low
+          enum:
+            - low
+            - medium
+            - high
+      required:
+        - title
+        - priority
+    ProjectCreate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type:
+            - string
+            - 'null'
+      required:
+        - title
+    ProjectResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID
+        title:
+          type: string
+        description:
+          type: string
+        createdDt:
+          type: string
+          description: UTC TIME
+          format: date-time
+        updatedDt:
+          type: string
+          description: UTC TIME
+          format: date-time
+      required:
+        - id
+        - title
+        - description
+        - createdDt
+        - updatedDt
+    PageMetadata:
+      type: object
+      properties:
+        page:
+          type: integer
+        size:
+          type: integer
+        totalCount:
+          type: integer
+        hasNext:
+          type: boolean
+      required:
+        - page
+        - size
+        - totalCount
+        - hasNext
   responses:
-    422Response:
+    '422':
       description: ''
       content:
         application/json:
