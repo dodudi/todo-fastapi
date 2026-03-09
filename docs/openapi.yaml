@@ -48,6 +48,11 @@ paths:
                 properties:
                   id:
                     type: integer
+                  project_id:
+                    type:
+                      - integer
+                      - 'null'
+                    description: 속한 프로젝트 아이디
                   title:
                     type: string
                   description:
@@ -65,7 +70,9 @@ paths:
                       - medium
                       - high
                   deletedDt:
-                    type: string
+                    type:
+                      - string
+                      - 'null'
                     description: UTC TIME
                     format: date-time
                   createdDt:
@@ -81,17 +88,18 @@ paths:
                   - title
                   - status
                   - priority
-                  - deletedDt
                   - createdDt
                   - updatedDt
               example:
                 id: 1
+                projectId: 1
                 title: test todo
                 description: test description
                 status: false
                 priority: medium
-                createdDt: '2026-03-08T12:33:09.061367'
-                updatedDt: '2026-03-08T12:33:09.061379'
+                deletedDt: null
+                createdDt: '2026-03-09T07:41:02.558989'
+                updatedDt: '2026-03-09T07:41:02.558998'
           headers: {}
         '422':
           $ref: '#/components/responses/422'
@@ -127,6 +135,7 @@ paths:
           in: query
           description: ''
           required: false
+          example: test
           schema:
             type:
               - string
@@ -135,12 +144,14 @@ paths:
           in: query
           description: ''
           required: false
+          example: 'false'
           schema:
             type: string
         - name: priority
           in: query
           description: ''
           required: false
+          example: medium
           schema:
             type:
               - string
@@ -149,6 +160,7 @@ paths:
           in: query
           description: ''
           required: false
+          example: 'false'
           schema:
             type:
               - boolean
@@ -168,6 +180,11 @@ paths:
                       properties:
                         id:
                           type: integer
+                        project_id:
+                          type:
+                            - integer
+                            - 'null'
+                          description: 속한 프로젝트 아이디
                         title:
                           type: string
                         description:
@@ -185,7 +202,9 @@ paths:
                             - medium
                             - high
                         deletedDt:
-                          type: string
+                          type:
+                            - string
+                            - 'null'
                           description: UTC TIME
                           format: date-time
                         createdDt:
@@ -201,7 +220,6 @@ paths:
                         - title
                         - status
                         - priority
-                        - deletedDt
                         - createdDt
                         - updatedDt
                   metadata:
@@ -223,6 +241,22 @@ paths:
                 required:
                   - data
                   - metadata
+              example:
+                data:
+                  - id: 1
+                    projectId: 1
+                    title: test todo
+                    description: test description
+                    status: false
+                    priority: medium
+                    deletedDt: null
+                    createdDt: '2026-03-09T07:41:02.558989'
+                    updatedDt: '2026-03-09T07:41:02.558998'
+                metadata:
+                  page: 0
+                  size: 100
+                  totalCount: 1
+                  hasNext: false
           headers: {}
         '422':
           $ref: '#/components/responses/422'
@@ -252,6 +286,11 @@ paths:
                 properties:
                   id:
                     type: integer
+                  project_id:
+                    type:
+                      - integer
+                      - 'null'
+                    description: 속한 프로젝트 아이디
                   title:
                     type: string
                   description:
@@ -269,7 +308,9 @@ paths:
                       - medium
                       - high
                   deletedDt:
-                    type: string
+                    type:
+                      - string
+                      - 'null'
                     description: UTC TIME
                     format: date-time
                   createdDt:
@@ -285,9 +326,18 @@ paths:
                   - title
                   - status
                   - priority
-                  - deletedDt
                   - createdDt
                   - updatedDt
+              example:
+                id: 1
+                projectId: 1
+                title: test todo
+                description: test description
+                status: false
+                priority: medium
+                deletedDt: null
+                createdDt: '2026-03-09T07:41:02.558989'
+                updatedDt: '2026-03-09T07:41:02.558998'
           headers: {}
         '422':
           $ref: '#/components/responses/422'
@@ -328,7 +378,9 @@ paths:
                   type:
                     - string
                     - 'null'
-            examples: {}
+            example:
+              title: updated title
+              status: true
       responses:
         '200':
           description: ''
@@ -336,7 +388,33 @@ paths:
             application/json:
               schema:
                 type: object
-                properties: {}
+                properties:
+                  title:
+                    type:
+                      - string
+                      - 'null'
+                  description:
+                    type:
+                      - string
+                      - 'null'
+                  status:
+                    type:
+                      - boolean
+                      - 'null'
+                  priority:
+                    type:
+                      - string
+                      - 'null'
+              example:
+                id: 1
+                projectId: 1
+                title: updated title
+                description: test description
+                status: true
+                priority: medium
+                deletedDt: null
+                createdDt: '2026-03-09T07:41:02.558989'
+                updatedDt: '2026-03-09T07:41:02.558998'
           headers: {}
         '422':
           $ref: '#/components/responses/422'
@@ -352,7 +430,7 @@ paths:
           in: path
           description: ''
           required: true
-          example: 0
+          example: 1
           schema:
             type: integer
       responses:
@@ -384,7 +462,9 @@ paths:
                     - 'null'
               required:
                 - title
-            example: "{\r\n    \"title\": \"test todo\",\r\n    \"description\": \"test description\",\r\n}"
+            example:
+              title: test todo
+              description: test description
         required: true
       responses:
         '200':
@@ -419,8 +499,116 @@ paths:
                 id: 1
                 title: test todo
                 description: test description
-                createdDt: '2026-03-09T04:45:40.379504'
-                updatedDt: '2026-03-09T04:45:40.379514'
+                createdDt: '2026-03-09T07:40:41.580378'
+                updatedDt: '2026-03-09T07:40:41.580389'
+          headers: {}
+        '422':
+          $ref: '#/components/responses/422'
+          description: ''
+      security: []
+  /projects/{project_id}/todos:
+    post:
+      summary: create todo
+      deprecated: false
+      description: ''
+      tags: []
+      parameters:
+        - name: project_id
+          in: path
+          description: ''
+          required: true
+          example: '1'
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type:
+                    - string
+                    - 'null'
+                priority:
+                  type: string
+                  default: low
+                  enum:
+                    - low
+                    - medium
+                    - high
+              required:
+                - title
+                - priority
+            example:
+              title: test todo
+              description: test description
+              priority: medium
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  project_id:
+                    type:
+                      - integer
+                      - 'null'
+                    description: 속한 프로젝트 아이디
+                  title:
+                    type: string
+                  description:
+                    type:
+                      - string
+                      - 'null'
+                  status:
+                    type: boolean
+                    description: 상태
+                  priority:
+                    type: string
+                    default: low
+                    enum:
+                      - low
+                      - medium
+                      - high
+                  deletedDt:
+                    type:
+                      - string
+                      - 'null'
+                    description: UTC TIME
+                    format: date-time
+                  createdDt:
+                    type: string
+                    description: UTC TIME
+                    format: date-time
+                  updatedDt:
+                    type: string
+                    description: UTC TIME
+                    format: date-time
+                required:
+                  - id
+                  - title
+                  - status
+                  - priority
+                  - createdDt
+                  - updatedDt
+              example:
+                id: 1
+                projectId: 1
+                title: test todo
+                description: test description
+                status: false
+                priority: medium
+                deletedDt: null
+                createdDt: '2026-03-09T07:41:02.558989'
+                updatedDt: '2026-03-09T07:41:02.558998'
           headers: {}
         '422':
           $ref: '#/components/responses/422'
@@ -439,6 +627,11 @@ components:
             properties:
               id:
                 type: integer
+              project_id:
+                type:
+                  - integer
+                  - 'null'
+                description: 속한 프로젝트 아이디
               title:
                 type: string
               description:
@@ -456,7 +649,9 @@ components:
                   - medium
                   - high
               deletedDt:
-                type: string
+                type:
+                  - string
+                  - 'null'
                 description: UTC TIME
                 format: date-time
               createdDt:
@@ -472,7 +667,6 @@ components:
               - title
               - status
               - priority
-              - deletedDt
               - createdDt
               - updatedDt
         metadata:
@@ -518,6 +712,11 @@ components:
       properties:
         id:
           type: integer
+        project_id:
+          type:
+            - integer
+            - 'null'
+          description: 속한 프로젝트 아이디
         title:
           type: string
         description:
@@ -535,7 +734,9 @@ components:
             - medium
             - high
         deletedDt:
-          type: string
+          type:
+            - string
+            - 'null'
           description: UTC TIME
           format: date-time
         createdDt:
@@ -553,7 +754,6 @@ components:
         - createdDt
         - updatedDt
         - status
-        - deletedDt
     TodoFilter:
       type: object
       properties:

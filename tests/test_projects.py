@@ -27,15 +27,43 @@ def client(session):
 
 
 project = {
+    "title": "test project",
+    "description": "test project description",
+}
+
+todo = {
     "title": "test todo",
     "description": "test description",
+    "priority": "low"
 }
 
 
 def test_create_todo(client):
     response = client.post("/projects", json=project)
-
     assert response.status_code == 200
+
     data = response.json()
-    assert data["title"] == "test todo"
-    assert data["description"] == "test description"
+    assert data["title"] == "test project"
+    assert data["description"] == "test project description"
+
+
+def test_create_todo_with_project(client):
+    project_response = client.post("/projects", json=project)
+    project_id = project_response.json()["id"]
+
+    todo_response = client.post(f"/projects/{project_id}/todos", json=todo)
+    assert todo_response.status_code == 200
+
+    json = todo_response.json()
+    assert json["title"] == todo.get("title")
+    assert json["description"] == todo.get("description")
+    assert json["priority"] == "low"
+    assert json["projectId"] == project_id
+
+
+def test_create_todo_with_project_404(client):
+    project_response = client.post("/projects", json=project)
+    project_id_add_one = project_response.json()["id"] + 1
+
+    todo_response = client.post(f"/projects/{project_id_add_one}/todos", json=todo)
+    assert todo_response.status_code == 404

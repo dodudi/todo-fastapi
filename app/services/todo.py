@@ -55,6 +55,14 @@ def create_todo(data: TodoCreate, session: Session) -> Todo:
     return todo
 
 
+def create_project_todo(project_id: int, data: TodoCreate, session: Session) -> Todo:
+    todo = Todo(**data.model_dump(), project_id=project_id)
+    session.add(todo)
+    session.commit()
+    session.refresh(todo)
+    return todo
+
+
 def update_todo(todo_id: int, data: TodoUpdate, session: Session) -> Todo:
     todo: Todo | None = session.get(Todo, todo_id)
     if todo is None:

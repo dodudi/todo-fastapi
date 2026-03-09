@@ -9,6 +9,7 @@ class Todo(SQLModel, table=True):
     __tablename__ = "todos"
 
     id: int | None = Field(default=None, primary_key=True)
+    project_id: int | None = Field(foreign_key="projects.id")
     title: str = Field(index=True)
     description: str | None = Field(default=None)
     status: bool = Field(default=False, index=True)

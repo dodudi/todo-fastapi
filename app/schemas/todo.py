@@ -15,6 +15,7 @@ class TodoFilter(BaseModel):
 
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True, use_enum_values=True)
 
+
 class TodoCreate(BaseModel):
     title: str
     description: str | None = None
@@ -23,8 +24,9 @@ class TodoCreate(BaseModel):
 
 class TodoResponse(BaseModel):
     id: int
+    project_id: int | None = None
     title: str
-    description: str | None
+    description: str | None = None
     status: bool
     priority: TodoPriority
     deleted_dt: datetime | None = None
